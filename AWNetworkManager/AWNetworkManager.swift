@@ -10,7 +10,7 @@ import Foundation
 
 public class NetworkManager {
     
-    static func begin(_ request: URLRequest,
+    static public func begin(_ request: URLRequest,
                       with statusCode: ((_ code: Int) -> Void)? = nil,
                       and response: @escaping (_ response: Data?) -> Void) {
         
@@ -34,7 +34,7 @@ public class NetworkManager {
         }.resume()
     }
     
-    static func stopAll() {
+    static public func stopAll() {
         URLSession.shared.getAllTasks { (tasks) in
             tasks.forEach({ (task) in
                 task.cancel()
