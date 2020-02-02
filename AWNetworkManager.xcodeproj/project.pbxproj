@@ -10,6 +10,7 @@
 		C87F4A3B23E59A7D00EEFB6C /* AWNetworkManager.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C87F4A3123E59A7D00EEFB6C /* AWNetworkManager.framework */; };
 		C87F4A4023E59A7D00EEFB6C /* AWNetworkManagerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C87F4A3F23E59A7D00EEFB6C /* AWNetworkManagerTests.swift */; };
 		C87F4A4223E59A7D00EEFB6C /* AWNetworkManager.h in Headers */ = {isa = PBXBuildFile; fileRef = C87F4A3423E59A7D00EEFB6C /* AWNetworkManager.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		C87F4A4C23E59AB100EEFB6C /* AWNetworkManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = C87F4A4B23E59AB100EEFB6C /* AWNetworkManager.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -29,6 +30,7 @@
 		C87F4A3A23E59A7D00EEFB6C /* AWNetworkManagerTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = AWNetworkManagerTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		C87F4A3F23E59A7D00EEFB6C /* AWNetworkManagerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AWNetworkManagerTests.swift; sourceTree = "<group>"; };
 		C87F4A4123E59A7D00EEFB6C /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		C87F4A4B23E59AB100EEFB6C /* AWNetworkManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AWNetworkManager.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -73,6 +75,7 @@
 			children = (
 				C87F4A3423E59A7D00EEFB6C /* AWNetworkManager.h */,
 				C87F4A3523E59A7D00EEFB6C /* Info.plist */,
+				C87F4A4B23E59AB100EEFB6C /* AWNetworkManager.swift */,
 			);
 			path = AWNetworkManager;
 			sourceTree = "<group>";
@@ -148,6 +151,7 @@
 				TargetAttributes = {
 					C87F4A3023E59A7D00EEFB6C = {
 						CreatedOnToolsVersion = 11.3.1;
+						LastSwiftMigration = 1130;
 					};
 					C87F4A3923E59A7D00EEFB6C = {
 						CreatedOnToolsVersion = 11.3.1;
@@ -195,6 +199,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				C87F4A4C23E59AB100EEFB6C /* AWNetworkManager.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -340,6 +345,7 @@
 		C87F4A4623E59A7D00EEFB6C /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_STYLE = Automatic;
 				DEFINES_MODULE = YES;
 				DEVELOPMENT_TEAM = KB5ZAP8MFS;
@@ -356,6 +362,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = ro.tana.AWNetworkManager;
 				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
 				SKIP_INSTALL = YES;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
@@ -364,6 +371,7 @@
 		C87F4A4723E59A7D00EEFB6C /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_STYLE = Automatic;
 				DEFINES_MODULE = YES;
 				DEVELOPMENT_TEAM = KB5ZAP8MFS;
@@ -388,6 +396,7 @@
 		C87F4A4923E59A7D00EEFB6C /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = KB5ZAP8MFS;
 				INFOPLIST_FILE = AWNetworkManagerTests/Info.plist;
@@ -406,6 +415,7 @@
 		C87F4A4A23E59A7D00EEFB6C /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = KB5ZAP8MFS;
 				INFOPLIST_FILE = AWNetworkManagerTests/Info.plist;
