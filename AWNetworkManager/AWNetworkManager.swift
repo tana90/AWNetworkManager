@@ -11,8 +11,7 @@ import Foundation
 public class AWNetworkManager {
     
     static public func begin(_ request: URLRequest,
-                      with statusCode: ((_ code: Int) -> Void)? = nil,
-                      and response: @escaping (_ response: Data?) -> Void) {
+                             _ response: @escaping (_ response: Data?) -> Void) {
         
         
         URLSession.shared.dataTask(with: request) { (data, httpResponse, error) in
@@ -24,12 +23,12 @@ public class AWNetworkManager {
             guard let data = data, error == nil else {
                 if (error?.domain == "NSPOSIXErrorDomain" || error?.domain == "NSURLErrorDomain") {
                     DispatchQueue.global().asyncAfter(deadline: .now() + 2) {
-                        Self.begin(request, with: statusCode, and: response)
+                        Self.begin(request, response)
                     }
                 }
                 return
             }
-
+            
             response(data)
         }.resume()
     }
