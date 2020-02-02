@@ -8,7 +8,7 @@
 
 import Foundation
 
-public class NetworkManager {
+public class AWNetworkManager {
     
     static public func begin(_ request: URLRequest,
                       with statusCode: ((_ code: Int) -> Void)? = nil,
