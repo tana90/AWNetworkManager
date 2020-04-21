@@ -1,11 +1,3 @@
-//
-//  AWNetworkManager.swift
-//  AWNetworkManager
-//
-//  Created by Tudor Ana on 01/02/2020.
-//  Copyright © 2020 Tudor Ana. All rights reserved.
-//
-
 import Foundation
 
 public class AWNetworkManager {
@@ -33,6 +25,7 @@ public class AWNetworkManager {
         }.resume()
     }
     
+    @available(iOS 9.0, *)
     static public func stopAll() {
         URLSession.shared.getAllTasks { (tasks) in
             tasks.forEach({ (task) in
