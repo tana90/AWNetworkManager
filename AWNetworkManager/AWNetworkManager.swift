@@ -8,7 +8,6 @@
 
 import Foundation
 
-@available(iOS 9.0, *)
 public class AWNetworkManager {
     
     static public func begin(_ request: URLRequest,
