@@ -1,11 +1,11 @@
 import Foundation
 
-enum Result<Success, Failure: Error> {
-    case success(Success)
-    case failure(Failure)
-}
-
 public class AWNetworkManager {
+
+    public enum Result<Success, Failure: Error> {
+        case success(Success)
+        case failure(Failure)
+    }
 
     static public func begin(_ request: URLRequest,
                              _ result: @escaping (Result<Data, Error>) -> Void) {
@@ -20,10 +20,10 @@ public class AWNetworkManager {
             guard let data = data, error == nil else {
                 if (error?.domain == "NSPOSIXErrorDomain" || error?.domain == "NSURLErrorDomain") {
                     DispatchQueue.global().asyncAfter(deadline: .now() + 2) {
-                        Self.begin(request, response)
+                        Self.begin(request, result)
                     }
                 }
-                result(.failure(error))
+                result(.failure(error!))
                 return
             }
 
