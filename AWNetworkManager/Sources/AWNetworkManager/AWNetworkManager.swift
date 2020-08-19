@@ -1,30 +1,36 @@
 import Foundation
 
+enum Result<Success, Failure: Error> {
+    case success(Success)
+    case failure(Failure)
+}
+
 public class AWNetworkManager {
-    
+
     static public func begin(_ request: URLRequest,
-                             _ response: @escaping (_ response: Data?) -> Void) {
-        
-        
+                             _ result: @escaping (Result<Data, Error>) -> Void) {
+
+
         URLSession.shared.dataTask(with: request) { (data, httpResponse, error) in
-            
+
             #if DEBUG
             print("Response url : \(String(describing: request.url)) : \(String(describing: String(data: data ?? Data(), encoding: .utf8)))")
             #endif
-            
+
             guard let data = data, error == nil else {
                 if (error?.domain == "NSPOSIXErrorDomain" || error?.domain == "NSURLErrorDomain") {
                     DispatchQueue.global().asyncAfter(deadline: .now() + 2) {
                         Self.begin(request, response)
                     }
                 }
+                result(.failure(error))
                 return
             }
-            
-            response(data)
+
+            result(.success(data))
         }.resume()
     }
-    
+
     @available(iOS 9.0, *)
     static public func stopAll() {
         URLSession.shared.getAllTasks { (tasks) in
