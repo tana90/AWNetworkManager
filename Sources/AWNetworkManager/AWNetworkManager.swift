@@ -1,9 +1,14 @@
 import Foundation
 
+enum Result<Success, Failure: Error> {
+    case success(Success)
+    case failure(Failure)
+}
+
 public class AWNetworkManager {
     
     static public func begin(_ request: URLRequest,
-                             _ response: @escaping (_ response: Data?) -> Void) {
+                             _ result: @escaping (Result<Data, Error>) -> Void) {
         
         
         URLSession.shared.dataTask(with: request) { (data, httpResponse, error) in
@@ -18,10 +23,11 @@ public class AWNetworkManager {
                         Self.begin(request, response)
                     }
                 }
+                result(.failure(error))
                 return
             }
-            
-            response(data)
+
+            result(.success(data))
         }.resume()
     }
     
