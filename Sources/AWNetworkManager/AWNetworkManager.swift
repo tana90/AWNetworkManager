@@ -8,21 +8,23 @@ public class AWNetworkManager {
     }
 
     static public func begin(_ request: URLRequest,
+                             retry: Bool = false,
                              _ result: @escaping (Result<Data, Error>) -> Void) {
 
-
-        URLSession.shared.dataTask(with: request) { (data, httpResponse, error) in
+        URLSession.shared.dataTask(with: request) { (data, _, error) in
 
             #if DEBUG
-            print("Response url : \(String(describing: request.url)) : \(String(describing: String(data: data ?? Data(), encoding: .utf8)))")
+            print("Response url: \(String(describing: request.url)) : \(String(describing: String(data: data ?? Data(), encoding: .utf8)))")
             #endif
 
             guard let data = data, error == nil else {
-                if (error?.domain == "NSPOSIXErrorDomain" || error?.domain == "NSURLErrorDomain") {
-                    DispatchQueue.global().asyncAfter(deadline: .now() + 2) {
+                
+                if (error?.domain == "NSPOSIXErrorDomain" || error?.domain == "NSURLErrorDomain") && retry {
+                    DispatchQueue.global().asyncAfter(deadline: .now() + 5) {
                         Self.begin(request, result)
                     }
                 }
+                
                 result(.failure(error!))
                 return
             }
