@@ -11,10 +11,10 @@ public class AWNetworkManager {
                              retry: Bool = false,
                              _ result: @escaping (Result<Data, Error>) -> Void) {
 
-        URLSession.shared.dataTask(with: request) { (data, _, error) in
+        URLSession.shared.dataTask(with: request) { (data, status, error) in
 
             #if DEBUG
-            print("Response url: \(String(describing: request.url)) : \(String(describing: String(data: data ?? Data(), encoding: .utf8)))")
+            print("Response url: \(String(describing: request.url)) : \(String(describing: String(data: data ?? Data(), encoding: .utf8))) : \(status)")
             #endif
 
             guard let data = data, error == nil else {
