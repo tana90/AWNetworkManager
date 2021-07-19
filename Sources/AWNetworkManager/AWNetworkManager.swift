@@ -9,13 +9,16 @@ public class AWNetworkManager {
 
     static public func begin(_ request: URLRequest,
                              retry: Bool = false,
+                             verbose: Bool = false,
                              _ result: @escaping (Result<Data, Error>) -> Void) {
 
         URLSession.shared.dataTask(with: request) { (data, status, error) in
 
-            #if DEBUG
-            print("Response url: \(String(describing: request.url)) : \(String(describing: String(data: data ?? Data(), encoding: .utf8))) : \(status)")
-            #endif
+            if verbose {
+                #if DEBUG
+                print("Response url: \(String(describing: request.url)) : \(String(describing: String(data: data ?? Data(), encoding: .utf8))) : \(status)")
+                #endif
+            }
 
             guard let data = data, error == nil else {
                 
