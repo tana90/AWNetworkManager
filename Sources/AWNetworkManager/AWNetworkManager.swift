@@ -36,6 +36,7 @@ public class AWNetworkManager {
         }.resume()
     }
 
+    @available(macOS 10.11, *)
     @available(iOS 9.0, *)
     static public func stopAll() {
         URLSession.shared.getAllTasks { (tasks) in
