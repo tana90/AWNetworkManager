@@ -1,6 +1,16 @@
 import Foundation
 
 public class AWNetworkManager {
+    
+    static public func begin(_ request: URLRequest,
+                             retry: Bool = false,
+                             verbose: Bool = false) -> Future<Data, Error> {
+        Future { promise in
+            Self.begin(request, retry: retry, verbose: verbose) { result in
+                promise(result)
+            }
+        }
+    }
 
     static public func begin(_ request: URLRequest,
                              retry: Bool = false,
