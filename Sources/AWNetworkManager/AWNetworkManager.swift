@@ -1,7 +1,9 @@
 import Foundation
+import Combine
 
 public class AWNetworkManager {
     
+    @available(macOS 10.15, iOS 13, watchOS 6, tvOS 13, *)
     static public func begin(_ request: URLRequest,
                              retry: Bool = false,
                              verbose: Bool = false) -> Future<Data, Error> {
