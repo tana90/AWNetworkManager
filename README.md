@@ -21,6 +21,8 @@ AWNetworkManager.begin(request) { result in
 
 ```
 
+iOS 13.0+
+
 ```
 let publisher = AWNetworkManager.begin(URLRequest(url: URL(string: "http://www.google.com")!))
     .sink { completion in
