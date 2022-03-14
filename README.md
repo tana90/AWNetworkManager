@@ -23,16 +23,16 @@ AWNetworkManager.begin(request) { result in
 
 ```
 let publisher = AWNetworkManager.begin(URLRequest(url: URL(string: "http://www.google.com")!))
-                    .sink { completion in
-                        switch completion {
-                            case .finished:
-                                // ...
-                            case .failure(let error):
-                                // ...
-                        }
-                    } receiveValue: { data in
-                        // ...
-                    }
+    .sink { completion in
+        switch completion {
+            case .finished:
+                // ...
+            case .failure(let error):
+                // ...
+            }
+    } receiveValue: { data in
+        // ...
+    }
 ```
 
 Contributors
