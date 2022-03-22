@@ -51,11 +51,11 @@ public class AWNetworkManager<Model> where Model: Decodable {
 
 extension AWNetworkManager {
     
-    private func make(_ request: URLRequest,
-                      retry: Bool = false,
-                      retryTimout: TimeInterval = 5,
-                      verbose: Bool = false,
-                      _ result: @escaping (Result<Model, Error>) -> Void) {
+    fileprivate func make(_ request: URLRequest,
+                          retry: Bool = false,
+                          retryTimout: TimeInterval = 5,
+                          verbose: Bool = false,
+                          _ result: @escaping (Result<Model, Error>) -> Void) {
         
         URLSession.shared.dataTask(with: request) { (data, status, error) in
         #if DEBUG
