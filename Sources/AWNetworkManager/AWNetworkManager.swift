@@ -15,27 +15,16 @@ public protocol AWEndpoint {
     var body: Data? { get }
 }
 
-// MARK: Endpoint error protocol
-
-public protocol AWEndpointError: Error {
-    
-    /// Error translations messages
-    var localizedMessage: String { get }
-    
-    /// Error code
-    var errorCode: Int { get }
-}
-
 // MARK: Network manager
 
-public class AWNetworkManager<Model, Failure> where Model: Decodable, Failure: AWEndpointError {
+public class AWNetworkManager<Model> where Model: Decodable {
     
     /// Make a request to an Endpoint
     
     @available(macOS 10.15, iOS 13, watchOS 6, tvOS 13, *)
     public func call(endpoint: AWEndpoint,
                      retry: Bool = false,
-                     verbose: Bool = false) -> Future<Model, Failure> {
+                     verbose: Bool = false) -> Future<Model, Error> {
         Future { [weak self] promise in
             self?.make(endpoint.request,
                        retry: retry,
@@ -66,7 +55,7 @@ extension AWNetworkManager {
                       retry: Bool = false,
                       retryTimout: TimeInterval = 5,
                       verbose: Bool = false,
-                      _ result: @escaping (Result<Model, Failure>) -> Void) {
+                      _ result: @escaping (Result<Model, Error>) -> Void) {
         
         URLSession.shared.dataTask(with: request) { (data, status, error) in
         #if DEBUG
@@ -84,14 +73,15 @@ extension AWNetworkManager {
                 }
                 
                 guard let error = error else { return }
-                result(.failure(error as! Failure))
+                result(.failure(error))
                 return
             }
             
             do {
                 result(.success(try JSONDecoder().decode(Model.self, from: data)))
             } catch {
-                result(.failure(error as! Failure))
+                print(error)
+                result(.failure(error))
             }
             
         }.resume()
