@@ -51,7 +51,7 @@ public class AWNetworkManager<Model> where Model: Decodable {
 
 extension AWNetworkManager {
     
-    fileprivate func make(_ request: URLRequest,
+    public func make(_ request: URLRequest,
                           retry: Bool = false,
                           retryTimout: TimeInterval = 5,
                           verbose: Bool = false,
