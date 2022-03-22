@@ -13,21 +13,29 @@ public protocol AWEndpoint {
     
     /// Body of the request
     var body: Data? { get }
+}
+
+// MARK: Endpoint error protocol
+
+public protocol AWEndpointError: Error {
     
-    /// Returned error from API
-    var error: Error? { get }
+    /// Error translations messages
+    var localizedMessage: String { get }
+    
+    /// Error code
+    var errorCode: Int { get }
 }
 
 // MARK: Network manager
 
-public class AWNetworkManager<ReturnModel> where ReturnModel: Decodable {
+public class AWNetworkManager<Model, Failure> where Model: Decodable, Failure: AWEndpointError {
     
     /// Make a request to an Endpoint
     
     @available(macOS 10.15, iOS 13, watchOS 6, tvOS 13, *)
     public func call(endpoint: AWEndpoint,
                      retry: Bool = false,
-                     verbose: Bool = false) -> Future<ReturnModel, Error> {
+                     verbose: Bool = false) -> Future<Model, Failure> {
         Future { [weak self] promise in
             self?.make(endpoint.request,
                        retry: retry,
@@ -56,40 +64,36 @@ extension AWNetworkManager {
     
     private func make(_ request: URLRequest,
                       retry: Bool = false,
+                      retryTimout: TimeInterval = 5,
                       verbose: Bool = false,
-                      _ result: @escaping (Result<ReturnModel, Error>) -> Void) {
+                      _ result: @escaping (Result<Model, Failure>) -> Void) {
         
         URLSession.shared.dataTask(with: request) { (data, status, error) in
-            #if DEBUG
+        #if DEBUG
             if verbose {
                 print("Response url: \(String(describing: request.url)) : \(String(describing: String(data: data ?? Data(), encoding: .utf8)))")
             }
-            #endif
+        #endif
             guard let data = data, error == nil else {
                 
-                if (error?.domain == "NSPOSIXErrorDomain" || error?.domain == "NSURLErrorDomain") && retry {
-                    DispatchQueue.global().asyncAfter(deadline: .now() + 5) { [weak self] in
+                if ((error as? NSError)?.domain == "NSPOSIXErrorDomain" ||
+                    (error as? NSError)?.domain == "NSURLErrorDomain") && retry {
+                    DispatchQueue.global().asyncAfter(deadline: .now() + retryTimout) { [weak self] in
                         self?.make(request, result)
                     }
                 }
                 
-                result(.failure(error!))
+                guard let error = error else { return }
+                result(.failure(error as! Failure))
                 return
             }
             
             do {
-                result(.success(try JSONDecoder().decode(ReturnModel.self, from: data)))
+                result(.success(try JSONDecoder().decode(Model.self, from: data)))
             } catch {
-                result(.failure(error))
+                result(.failure(error as! Failure))
             }
             
         }.resume()
     }
-}
-
-// MARK: Error extension
-
-extension Error {
-    var code: Int { return (self as NSError).code }
-    var domain: String { return (self as NSError).domain }
 }
