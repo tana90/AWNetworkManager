@@ -19,6 +19,8 @@ public protocol AWEndpoint {
 
 public class AWNetworkManager<Model> where Model: Decodable {
     
+    public init() { }
+    
     /// Make a request to an Endpoint
     
     @available(macOS 10.15, iOS 13, watchOS 6, tvOS 13, *)
@@ -33,25 +35,13 @@ public class AWNetworkManager<Model> where Model: Decodable {
             }
         }
     }
-    
-    /// Stop all the tasks in the URLSession queue
-    
-    @available(macOS 10.11, *)
-    @available(iOS 9.0, *)
-    static public func stopAll() {
-        URLSession.shared.getAllTasks { (tasks) in
-            tasks.forEach({ (task) in
-                task.cancel()
-            })
-        }
-    }
 }
 
 // MARK: Network manager private helpers
 
 extension AWNetworkManager {
     
-    public func make(_ request: URLRequest,
+    private func make(_ request: URLRequest,
                           retry: Bool = false,
                           retryTimout: TimeInterval = 5,
                           verbose: Bool = false,
