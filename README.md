@@ -24,7 +24,50 @@ AWNetworkManager.begin(request) { result in
 iOS 13.0+
 
 ```
-let publisher = AWNetworkManager.begin(URLRequest(url: URL(string: "http://www.google.com")!))
+
+struct User: Decodable {
+    var firstName
+    var lastName
+    // ...
+}
+
+enum Endpoint: AWEndpoint {
+    
+    case login
+    case getUserData
+    
+    var url: URL {
+        switch self {
+        case .login:
+            return // Login API
+        case .getUserData:
+            return // Fetch user data API
+        }
+    }
+    
+    var request: URLRequest {
+        switch self {
+        case .login:
+            return URLRequest(url: Self.login.url)
+        case .getUserData:
+            var request = URLRequest(url: Self.getUserData.url)
+            request.body = Self.getUserData.body
+            return request
+        }
+    }
+    
+    var body: Data? {
+        switch self {
+        case .login:
+            return nil
+        case .getUserData:
+            return Data() // Payload
+        }
+    }
+}
+
+
+let publisher = AWNetworkManager<UserData>().call(endpoint: Endpoint.login)
     .sink { completion in
         switch completion {
             case .finished:
