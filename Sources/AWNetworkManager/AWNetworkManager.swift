@@ -21,6 +21,19 @@ public class AWNetworkManager<Model> where Model: Decodable {
     
     public init() { }
     
+    /// Make a request to an URL
+    
+    @available(macOS 10.12, iOS 10, watchOS 4, tvOS 10, *)
+    public func call(url: URL,
+                     retry: Bool = false,
+                     verbose: Bool = false,
+                     _ result: @escaping (Result<Model, Error>) -> Void) {
+        make(URLRequest(url: url),
+             retry: retry,
+             verbose: verbose,
+             result)
+    }
+    
     /// Make a request to an Endpoint
     
     @available(macOS 10.15, iOS 13, watchOS 6, tvOS 13, *)
@@ -34,6 +47,13 @@ public class AWNetworkManager<Model> where Model: Decodable {
                 promise(result)
             }
         }
+    }
+    
+    // Make a request and return a publisher
+    
+    @available(macOS 10.15, iOS 13, watchOS 6, tvOS 13, *)
+    public func call(endpoint: AWEndpoint) -> URLSession.DataTaskPublisher {
+        return URLSession.shared.dataTaskPublisher(for: endpoint.request)
     }
 }
 
