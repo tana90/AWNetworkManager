@@ -1,20 +1,6 @@
 import Foundation
 import Combine
 
-// MARK: Endpoint protocol
-
-public protocol AWEndpoint {
-    
-    /// URL of the Endpoint
-    var url: URL { get }
-    
-    /// Request to make
-    var request: URLRequest { get }
-    
-    /// Body of the request
-    var body: Data? { get }
-}
-
 // MARK: Network manager
 
 public class AWNetworkManager<Model> where Model: Decodable {
@@ -62,17 +48,17 @@ public class AWNetworkManager<Model> where Model: Decodable {
 extension AWNetworkManager {
     
     private func make(_ request: URLRequest,
-                          retry: Bool = false,
-                          retryTimout: TimeInterval = 5,
-                          verbose: Bool = false,
-                          _ result: @escaping (Result<Model, Error>) -> Void) {
+                      retry: Bool = false,
+                      retryTimout: TimeInterval = 5,
+                      verbose: Bool = false,
+                      _ result: @escaping (Result<Model, Error>) -> Void) {
         
         URLSession.shared.dataTask(with: request) { (data, status, error) in
-        #if DEBUG
+            #if DEBUG
             if verbose {
                 print("Response url: \(String(describing: request.url)) : \(String(describing: String(data: data ?? Data(), encoding: .utf8)))")
             }
-        #endif
+            #endif
             guard let data = data, error == nil else {
                 
                 if ((error as? NSError)?.domain == "NSPOSIXErrorDomain" ||
