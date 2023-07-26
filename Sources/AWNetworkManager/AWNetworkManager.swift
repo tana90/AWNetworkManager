@@ -56,7 +56,7 @@ public class AWNetworkManager<Model> where Model: Decodable {
     // Make a request and return raw data
 
     @available(macOS 10.15, iOS 13, watchOS 6, tvOS 13, *)
-    public func call(
+    public func callRaw(
         url: URL,
         retry: Bool = false,
         verbose: Bool = false,
