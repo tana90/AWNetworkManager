@@ -69,7 +69,7 @@ public class AWNetworkManager<Model> where Model: Decodable {
     }
 
     @available(macOS 12.0, iOS 13, watchOS 6, tvOS 13, *)
-    func callRaw(url: URL) async throws -> Data {
+    public func callRaw(url: URL) async throws -> Data {
         let (data, _) = try await URLSession.shared.data(from: url)
         return data
     }
